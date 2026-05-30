@@ -151,6 +151,24 @@ public class PizzaFurnace : MonoBehaviour
         Debug.Log($"Lenha adicionada. Fuel: {currentFuel}");
     }
 
+    //é a mesma funçao de cima, mas esta é para funcionar com unity event
+    // assim podes utilizar o teclado para debbug ou esta funçao :)
+    public void AddFuelDirect()
+    {
+        
+
+        if (isOverheated)
+        {
+            Debug.Log("FORNALHA EM OVERHEAT!");
+            return;
+        }
+
+        currentFuel += fuelPerLog;
+        currentFuel = Mathf.Clamp(currentFuel, 0f, maxFuel);
+
+        Debug.Log($"Lenha adicionada. Fuel: {currentFuel}");
+    }
+
     public float GetExtinguisherEfficiency()
     {
         if (currentTemperature >= 500f)

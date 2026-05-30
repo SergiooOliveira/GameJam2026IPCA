@@ -1,20 +1,20 @@
 using UnityEngine;
-using System.Collections.Generic;
+using UnityEngine.Events; // 1. Necessário para usar UnityEvents
 
 public class DeliveryPoint : MonoBehaviour
 {
+    [Header("Configurações de Aceitação")]
+    [Tooltip("Arraste o Prefab que este ponto aceita (ex: prefab da Madeira ou da Pizza)")]
+    public GameObject allowedPrefab;
+
     [Header("Configurações de Entrega")]
     [Tooltip("Tempo em segundos entre cada entrega (ex: descarregar 1 item a cada 0.2s)")]
     public float deliveryInterval = 0.2f;
 
-    [Header("Configurações de Armazenamento (Opcional)")]
-    [Tooltip("Se ativado, os objetos entregues vão empilhar aqui também")]
-    public bool stackDeliveredObjects = true;
-    public Transform stackPosition;
-    public float verticalOffset = 0.3f;
+    [Header("Eventos da Unity")]
+    [Tooltip("O que acontece quando o item correto é entregue? Configura visualmente no Inspector!")]
+    public UnityEvent OnDeliverySuccess;
 
-    // Lista interna caso queiras guardar os objetos visualmente no ponto de recolha
-    private List<GameObject> deliveredObjects = new List<GameObject>();
     private float timer = 0.0f;
 
     private void OnTriggerStay(Collider other)
@@ -43,33 +43,33 @@ public class DeliveryPoint : MonoBehaviour
 
     void TryTakeObjectFromPlayer(PlayerInventory playerInventory)
     {
-        // Tenta retirar o último objeto do jogador
+        // 1. "Espreita" o último objeto removendo-o temporariamente para validação
         GameObject takenObj = playerInventory.RemoveLastObject();
 
         if (takenObj != null)
         {
-            // --- CÓDIGO DE SUCESSO DE ENTREGA ---
-            Debug.Log($"Objeto {takenObj.name} entregue com sucesso!");
+            // Limpa o nome do objeto clonado para bater certo com o Prefab original
+            string cleanObjName = takenObj.name.Replace("(Clone)", "").Trim();
+            string cleanPrefabName = allowedPrefab.name.Trim();
 
-            // Se quisermos que eles empilhem no ponto de recolha (tipo um armazém)
-            if (stackDeliveredObjects && stackPosition != null)
+            // 2. Verifica se o item retirado é o que este ponto aceita
+            if (cleanObjName == cleanPrefabName)
             {
-                takenObj.transform.SetParent(stackPosition);
-                float newY = deliveredObjects.Count * verticalOffset;
-                takenObj.transform.localPosition = new Vector3(0, newY, 0);
-                takenObj.transform.localRotation = Quaternion.identity;
+                // --- SUCESSO DE ENTREGA ---
+                Debug.Log($"[DeliveryPoint] {cleanObjName} entregue com sucesso!");
 
-                deliveredObjects.Add(takenObj);
+                // 3. Dispara o evento visual que configuraste na Unity!
+                OnDeliverySuccess?.Invoke();
+
+                // Destrói o objeto físico imediatamente
+                Destroy(takenObj);
             }
             else
             {
-                // Se não queres acumular no cenário, podes simplesmente destruí-lo 
-                // ou desativá-lo para poupar performance (Object Pooling seria o ideal, mas para Jam isto serve!)
-                Destroy(takenObj);
+                // --- FALHA DE ENTREGA ---
+                // Se o item não for o correto para este local, devolvemo-lo ao jogador
+                playerInventory.PickUpObject(takenObj);
             }
-
-            // EXTRAS DA JAM: Podes adicionar aqui chamadas para o teu GameManager 
-            // para somar moedas ou pontos! ex: GameManager.Instance.AddScore(10);
         }
     }
 }

@@ -199,5 +199,27 @@ public class PizzaFurnace : MonoBehaviour
         Debug.Log("A temperatura está fora de controlo!");
     }
 
+    public FurnaceState CurrentState
+    {
+        get
+        {
+            if (currentTemperature >= overheatTemperature)
+                return FurnaceState.Overheated;
+
+            if (currentTemperature >= 350f)
+                return FurnaceState.Hot;
+
+            if (currentTemperature >= minCookingTemperature)
+                return FurnaceState.Ready;
+
+            if (currentTemperature >= 150f)
+                return FurnaceState.Heating;
+
+            return FurnaceState.Cold;
+        }
+    }
+
     public bool IsInCookingRange => currentTemperature >= minCookingTemperature && currentTemperature <= maxCookingTemperature;
+
+    public float TemperaturePercentage => currentTemperature / maxTemperature;
 }

@@ -978,9 +978,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892bd7f4a2a01c545bea28aef2831de0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 15
+  moveSpeed: 10
   currentSpeed: 0
-  acceleration: 5
+  acceleration: 2.5
   rotationSpeed: 360
   itemPrefab: {fileID: 1586545542393272346, guid: 38bd6772ed45bbb4484124cdca296dd5, type: 3}
   spawnPoint: {fileID: 538852619}
@@ -1109,6 +1109,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b56a7372-a3d3-40d1-807e-dfbf2e501f51
+    m_ActionName: 'Player/AddFuel[/Keyboard/f]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 41fcbf07-2548-42cd-889c-7436885553b2
+    m_ActionName: 'Player/UseExtinguisher[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 489841ac-238a-46bc-99f6-753e487b2295
+    m_ActionName: 'Player/DebugTemperature[/Keyboard/t]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: 

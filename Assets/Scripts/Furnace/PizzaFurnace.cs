@@ -55,7 +55,7 @@ public class PizzaFurnace : MonoBehaviour
             Debug.Log(
                 currentCookingState
                     ? "Temperatura ideal para pizzas."
-                    : "Temperatura não ideal para pizzas."
+                    : "Temperatura nï¿½o ideal para pizzas."
             );
         }
 
@@ -69,7 +69,7 @@ public class PizzaFurnace : MonoBehaviour
     {
         if (testExtinguisher == null)
         {
-            Debug.LogWarning("Nenhum extintor atribuído.");
+            Debug.LogWarning("Nenhum extintor atribuï¿½do.");
             return;
         }
 
@@ -151,8 +151,8 @@ public class PizzaFurnace : MonoBehaviour
         Debug.Log($"Lenha adicionada. Fuel: {currentFuel}");
     }
 
-    //é a mesma funçao de cima, mas esta é para funcionar com unity event
-    // assim podes utilizar o teclado para debbug ou esta funçao :)
+    //ï¿½ a mesma funï¿½ao de cima, mas esta ï¿½ para funcionar com unity event
+    // assim podes utilizar o teclado para debbug ou esta funï¿½ao :)
     public void AddFuelDirect()
     {
         
@@ -214,7 +214,7 @@ public class PizzaFurnace : MonoBehaviour
         isOverheated = true;
 
         Debug.Log("!!! OVERHEAT !!!");
-        Debug.Log("A temperatura está fora de controlo!");
+        Debug.Log("A temperatura estï¿½ fora de controlo!");
     }
 
     public bool IsInCookingRange => currentTemperature >= minCookingTemperature && currentTemperature <= maxCookingTemperature;

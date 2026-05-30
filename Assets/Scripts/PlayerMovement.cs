@@ -62,6 +62,24 @@ public class PlayerMovement : MonoBehaviour
         movementY = inputvector.y;
     }
 
+    // This fires when a box enters your invisible Trigger bubble
+    void OnTriggerEnter(Collider other)
+    {
+        Rigidbody body = other.attachedRigidbody;
+
+        if (body != null && !body.isKinematic)
+        {
+            // Calculate the angle from the player to the box
+            Vector3 pushDirection = (other.transform.position - transform.position).normalized;
+
+            // Give it a tiny upward bump so it pops nicely off the player
+            pushDirection.y = 0.5f;
+
+            // Kick the box away instantly! (Adjust the 5f if you want them to fly further)
+            body.linearVelocity = pushDirection * 5f;
+        }
+    }
+
     //public void OnAttack(InputAction.CallbackContext callbackContext)
     //{
     //    if (callbackContext.performed)

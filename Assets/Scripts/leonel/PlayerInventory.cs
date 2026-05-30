@@ -3,42 +3,42 @@ using System.Collections.Generic;
 
 public class PlayerInventory : MonoBehaviour
 {
-    [Header("Configurações de Carga")]
-    [Tooltip("Ponto vazio (Transform) nas mãos ou costas do jogador onde os objetos vão acumular")]
+    [Header("Configuraï¿½ï¿½es de Carga")]
+    [Tooltip("Ponto vazio (Transform) nas mï¿½os ou costas do jogador onde os objetos vï¿½o acumular")]
     public Transform stackPosition;
     public float verticalOffset = 0.3f;
     public int maxCarryLimit = 5;
 
     private List<GameObject> carriedObjects = new List<GameObject>();
 
-    // Função que o Spawner vai chamar para dar o objeto ao Jogador
+    // Funï¿½ï¿½o que o Spawner vai chamar para dar o objeto ao Jogador
     public bool PickUpObject(GameObject objToPickUp)
     {
         if (carriedObjects.Count >= maxCarryLimit)
         {
-            Debug.Log("Inventário cheio!");
-            return false; // Não conseguiu apanhar
+            Debug.Log("Inventï¿½rio cheio!");
+            return false; // Nï¿½o conseguiu apanhar
         }
 
         // 1. Tornar o objeto "filho" do ponto de stack do jogador
         objToPickUp.transform.SetParent(stackPosition);
 
-        // 2. Calcular a posição dele na pilha do jogador
+        // 2. Calcular a posiï¿½ï¿½o dele na pilha do jogador
         float newY = carriedObjects.Count * verticalOffset;
         objToPickUp.transform.localPosition = new Vector3(0, newY, 0);
-        objToPickUp.transform.localRotation = Quaternion.identity; // Alinha a rotação
+        objToPickUp.transform.localRotation = Quaternion.identity; // Alinha a rotaï¿½ï¿½o
 
-        // 3. Adicionar à lista do jogador
+        // 3. Adicionar ï¿½ lista do jogador
         carriedObjects.Add(objToPickUp);
         return true; // Sucesso!
     }
 
-    // Função que o Ponto de Recolha vai chamar para retirar o último objeto da pilha do jogador
+    // Funï¿½ï¿½o que o Ponto de Recolha vai chamar para retirar o ï¿½ltimo objeto da pilha do jogador
     public GameObject RemoveLastObject()
     {
         if (carriedObjects.Count == 0) return null;
 
-        // Pega no último objeto (o do topo da pilha)
+        // Pega no ï¿½ltimo objeto (o do topo da pilha)
         int lastIndex = carriedObjects.Count - 1;
         GameObject objToRemove = carriedObjects[lastIndex];
 

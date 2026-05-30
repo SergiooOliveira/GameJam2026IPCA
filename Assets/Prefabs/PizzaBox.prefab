@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2880079422781058999}
   - component: {fileID: -7884634645956913216}
   - component: {fileID: -2654370444851104744}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PizzaBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpineLink
   maxBendAngle: 25
-  snapForce: 60
+  snapForce: 100
   damper: 5
   breakingForce: 2000
   breakingTorque: 3000

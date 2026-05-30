@@ -38,6 +38,11 @@ public class PizzaFurnace : MonoBehaviour
     public bool isOverheated = false;
     private bool previousCookingState;
 
+    [Header("Upgrade Multipliers")]
+    public float temperatureMultiplier = 1f;
+    public float cooldownMultiplier = 1f;
+    public float fuelMultiplier = 1f;
+
     [SerializeField] private FireExtinguisher testExtinguisher;
     private bool usingExtinguisher;
 
@@ -102,7 +107,6 @@ public class PizzaFurnace : MonoBehaviour
         if (isOverheated)
         {
             currentTemperature += overheatHeatingRate * Time.deltaTime;
-
             currentTemperature = Mathf.Clamp(currentTemperature, 0f, maxTemperature);
 
             return;
@@ -207,6 +211,7 @@ public class PizzaFurnace : MonoBehaviour
         if (!ctx.performed) return;
 
         Debug.Log($"Temperatura Atual: {currentTemperature}");
+        Debug.Log($"Temperatura Multiplicador: {temperatureMultiplier}");
     }
 
     private void StartOverheat()
@@ -217,24 +222,13 @@ public class PizzaFurnace : MonoBehaviour
         Debug.Log("A temperatura está fora de controlo!");
     }
 
-    public FurnaceState CurrentState
+    public void ApplyUpgrade(UpgradeData upgrade)
     {
-        get
-        {
-            if (currentTemperature >= overheatTemperature)
-                return FurnaceState.Overheated;
+        temperatureMultiplier *= upgrade.temperatureIncreaseMultiplier;
+        cooldownMultiplier *= upgrade.cooldownSpeedMultiplier;
+        fuelMultiplier *= upgrade.fuelEfficiencyMultiplier;
 
-            if (currentTemperature >= 350f)
-                return FurnaceState.Hot;
-
-            if (currentTemperature >= minCookingTemperature)
-                return FurnaceState.Ready;
-
-            if (currentTemperature >= 150f)
-                return FurnaceState.Heating;
-
-            return FurnaceState.Cold;
-        }
+        Debug.Log("Upgrade aplicado: " + upgrade.upgradeName);
     }
 
     public bool IsInCookingRange => currentTemperature >= minCookingTemperature && currentTemperature <= maxCookingTemperature;

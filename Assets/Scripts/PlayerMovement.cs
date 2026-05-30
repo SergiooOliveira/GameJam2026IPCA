@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float movementX;
     private float movementY;
+    private bool canMove = true;
 
     private CharacterController controller;
 
@@ -30,6 +31,13 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!canMove)
+        {
+            controller.Move(Vector3.zero);
+            CurrentVelocity = Vector3.zero;
+            return;
+        }
+
         Vector3 inputDirection = new Vector3(movementX, 0f, movementY).normalized;
 
         if (inputDirection != Vector3.zero)
@@ -76,4 +84,9 @@ public class PlayerMovement : MonoBehaviour
     //        Instantiate(itemPrefab, spawnPoint.position, spawnPoint.rotation, spawnPoint.transform);
     //    }
     //}
+
+    public void SetMovementEnabled(bool value)
+    {
+        canMove = value;
+    }
 }

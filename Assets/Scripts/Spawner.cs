@@ -30,7 +30,7 @@ public class Spawner : MonoBehaviour
         if (callbackContext.started)
         {
             // 1. Spawn the block
-            Instantiate(itemPrefab, spawnPoint.position, spawnPoint.rotation, transform);
+            Instantiate(itemPrefab, spawnPoint.position, spawnPoint.rotation);
             //Rigidbody newRb = newBlock.GetComponent<Rigidbody>();
 
             //// 2. Add a springy joint to connect it to the block below it

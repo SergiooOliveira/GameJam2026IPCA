@@ -3,26 +3,43 @@ using UnityEngine;
 public class SpineLink : MonoBehaviour
 {
     [Header("Spine Physics")]
-    public float maxBendAngle = 45f;
-    public float snapForce = 30f;   // Lower = more cartoon wobble
-    public float damper = 5f;
+    public float maxBendAngle = 60f;
+    public float snapForce = 20f;   // Lower = more cartoon wobble
+    public float damper = 2f;
 
+    [Header("Collapse Settings")]
+    [Tooltip("How much strain the joint can take before it breaks and falls.")]
+    public float breakingForce = 200f;
+    public float breakingTorque = 150f;
+
+    public float weaknessPerBox = 2f;
+    
     private bool isAttached = false;
+
+    public int stackIndex = 1;
 
     void OnCollisionEnter(Collision collision)
     {
-        // If we are already part of the tower, do nothing
         if (isAttached) return;
 
-        // Did we land on the base tray or another box already in the spine?
-        if (collision.gameObject.CompareTag("Tray") || collision.gameObject.CompareTag("SpineBox"))
+        SpineLink hitBox = collision.gameObject.GetComponent<SpineLink>();
+        bool hitTray = collision.gameObject.CompareTag("Tray");
+
+        if (hitTray || hitBox != null)
         {
             isAttached = true;
-
-            // Change my tag so the next box knows it can stick to me
             gameObject.tag = "SpineBox";
 
-            // Build the joint instantly upon impact
+            // THE COUNTING LOGIC
+            if (hitBox != null)
+            {
+                stackIndex = hitBox.stackIndex + 1; // I am the bottom box
+            }
+            else
+            {
+                stackIndex = 1;
+            }
+
             Rigidbody hitRb = collision.gameObject.GetComponent<Rigidbody>();
             if (hitRb != null)
             {
@@ -52,12 +69,31 @@ public class SpineLink : MonoBehaviour
         joint.highAngularXLimit = limit;
         joint.angularZLimit = limit;
 
+        joint.rotationDriveMode = RotationDriveMode.Slerp;
         JointDrive drive = new JointDrive();
         drive.positionSpring = snapForce;
         drive.positionDamper = damper;
         drive.maximumForce = Mathf.Infinity;
+        joint.slerpDrive = drive;
 
-        joint.angularXDrive = drive;
-        joint.angularYZDrive = drive;
+        float weakness = 1f + ((stackIndex - 1) * weaknessPerBox);
+
+        joint.breakTorque = breakingTorque / weakness;
+        joint.breakForce = breakingForce / weakness;
+
+        Rigidbody myRb = GetComponent<Rigidbody>();
+        myRb.solverIterations = 20;
+        myRb.solverVelocityIterations = 20;
+
+        joint.projectionMode = JointProjectionMode.PositionAndRotation;
+        joint.projectionDistance = 0.1f; // Allowed separation before it snaps back
+        joint.projectionAngle = 5f;
+    }
+
+    private void OnJointBreak(float breakForce)
+    {
+        Debug.Log("SNAP! A joint broke under " + breakForce + " force!");
+        gameObject.tag = "Untagged";
+        Destroy(gameObject);
     }
 }

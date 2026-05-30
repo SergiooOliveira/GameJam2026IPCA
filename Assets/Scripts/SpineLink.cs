@@ -15,11 +15,27 @@ public class SpineLink : MonoBehaviour
     public float weaknessPerBox = 2f;
     
     private bool isAttached = false;
+    private ConfigurableJoint myJoint;
 
     public int stackIndex = 1;
 
+    private void Update()
+    {
+        if (isAttached && myJoint == null)
+        {
+            gameObject.tag = "Untagged";
+            isAttached = false;
+        }
+    }
+
     void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         if (isAttached) return;
 
         SpineLink hitBox = collision.gameObject.GetComponent<SpineLink>();
@@ -52,6 +68,8 @@ public class SpineLink : MonoBehaviour
     {
         ConfigurableJoint joint = gameObject.AddComponent<ConfigurableJoint>();
         joint.connectedBody = connectedBody;
+
+        joint.enableCollision = true;
 
         // Lock the position exactly where it landed!
         joint.xMotion = ConfigurableJointMotion.Locked;
@@ -88,12 +106,14 @@ public class SpineLink : MonoBehaviour
         joint.projectionMode = JointProjectionMode.PositionAndRotation;
         joint.projectionDistance = 0.1f; // Allowed separation before it snaps back
         joint.projectionAngle = 5f;
+
+        myJoint = joint;
     }
 
     private void OnJointBreak(float breakForce)
     {
         Debug.Log("SNAP! A joint broke under " + breakForce + " force!");
+        isAttached = false;
         gameObject.tag = "Untagged";
-        Destroy(gameObject);
     }
 }

@@ -148,7 +148,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 132027386}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.09}
+  m_LocalPosition: {x: 0, y: 0, z: -0.067}
   m_LocalScale: {x: 1, y: 0.03, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -157,7 +157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.01, y: 0.54}
+  m_AnchoredPosition: {x: -0.01, y: 1.22}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!65 &132027388
@@ -349,8 +349,8 @@ MonoBehaviour:
   spawnPoint: {fileID: 538852619}
   baseTray: {fileID: 132027389}
   maxBendAngle: 60
-  snapForce: 150
-  damper: 5
+  snapForce: 2000
+  damper: 100
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,7 +555,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraMove
   lookAction: {fileID: -5630151704836100654, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   playerTransform: {fileID: 2138438878}
-  offset: {x: 0, y: 0, z: -3}
+  offset: {x: 0, y: 0, z: -5}
   sensibilidadeMouse: 15
   fixedPitch: 45
 --- !u!1001 &1219896874
@@ -980,7 +980,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   moveSpeed: 15
   currentSpeed: 0
-  acceleration: 10
+  acceleration: 5
   rotationSpeed: 360
   itemPrefab: {fileID: 1586545542393272346, guid: 38bd6772ed45bbb4484124cdca296dd5, type: 3}
   spawnPoint: {fileID: 538852619}

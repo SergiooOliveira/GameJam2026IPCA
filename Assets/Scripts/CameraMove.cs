@@ -17,8 +17,8 @@ public class CameraMove : MonoBehaviour
 
     void Start()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
 
         if (playerTransform != null)
             currentYaw = playerTransform.eulerAngles.y;

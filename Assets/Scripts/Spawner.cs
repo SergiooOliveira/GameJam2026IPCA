@@ -19,8 +19,7 @@ public class Spawner : MonoBehaviour
     private Rigidbody lastAttachedBody;
 
     void Start()
-    {
-        
+    {        
         // The first block will attach directly to the tray
         lastAttachedBody = baseTray;
     }
@@ -30,7 +29,7 @@ public class Spawner : MonoBehaviour
         if (callbackContext.started)
         {
             // 1. Spawn the block
-            Instantiate(itemPrefab, spawnPoint.position, spawnPoint.rotation);
+            Instantiate(itemPrefab, spawnPoint.position, itemPrefab.transform.rotation);
             //Rigidbody newRb = newBlock.GetComponent<Rigidbody>();
 
             //// 2. Add a springy joint to connect it to the block below it

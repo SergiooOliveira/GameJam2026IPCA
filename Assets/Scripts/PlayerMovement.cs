@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // Mantido caso use para outras ações (como atacar/interagir)
+using UnityEngine.InputSystem; // Mantido caso use para outras aï¿½ï¿½es (como atacar/interagir)
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
@@ -15,10 +15,6 @@ public class PlayerMovement : MonoBehaviour
     private float movementY;
 
     private CharacterController controller;
-
-    [Header("Stacker")]
-    public GameObject itemPrefab;
-    public Transform spawnPoint;
 
     [Header("Mobile Controls")]
     public FixedJoystick joystick; // O seu joystick do script antigo
@@ -40,10 +36,10 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Criamos a direção com base no input (seja do Joystick ou do Input System)
+        // Criamos a direï¿½ï¿½o com base no input (seja do Joystick ou do Input System)
         Vector3 inputDirection = new Vector3(movementX, 0f, movementY).normalized;
 
-        // Se o joystick se mover quase nada, evitamos rotações fantasmas
+        // Se o joystick se mover quase nada, evitamos rotaï¿½ï¿½es fantasmas
         if (joystick != null && new Vector2(movementX, movementY).magnitude < 0.1f)
         {
             inputDirection = Vector3.zero;
@@ -51,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (inputDirection != Vector3.zero)
         {
-            // 1. Rotaciona o jogador na direção do input
+            // 1. Rotaciona o jogador na direï¿½ï¿½o do input
             Quaternion targetRotation = Quaternion.LookRotation(inputDirection);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         }
@@ -60,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
         float targetSpeed = inputDirection.magnitude * moveSpeed;
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, acceleration * Time.fixedDeltaTime);
 
-        // 3. Move exatamente para onde o jogador está olhando (Garante o U-Turn)
+        // 3. Move exatamente para onde o jogador estï¿½ olhando (Garante o U-Turn)
         Vector3 velocity = transform.forward * currentSpeed;
 
         // 4. Salva e move
@@ -68,10 +64,10 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(velocity * Time.fixedDeltaTime);
     }
 
-    // Mantido caso você ainda queira testar no PC usando o teclado pelo New Input System
+    // Mantido caso vocï¿½ ainda queira testar no PC usando o teclado pelo New Input System
     public void OnMove(InputAction.CallbackContext callbackContext)
     {
-        if (joystick == null) // Só usa o Input System se NÃO houver joystick na tela
+        if (joystick == null) // Sï¿½ usa o Input System se Nï¿½O houver joystick na tela
         {
             Vector2 inputvector = callbackContext.ReadValue<Vector2>();
             movementX = inputvector.x;

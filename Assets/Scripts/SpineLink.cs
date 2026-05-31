@@ -16,6 +16,7 @@ public class SpineLink : MonoBehaviour
     private bool isAttached = false;
     private bool hasBroken = false;
     private ConfigurableJoint myJoint;
+    private GameObject lockedTray = null;
 
     public int stackIndex = 1;
 
@@ -27,6 +28,12 @@ public class SpineLink : MonoBehaviour
             isAttached = false;
             hasBroken = true;
             gameObject.tag = "Untagged";
+
+            if (lockedTray != null)
+            {
+                lockedTray.tag = "Tray";
+                lockedTray = null;
+            }
         }
     }
 
@@ -53,6 +60,12 @@ public class SpineLink : MonoBehaviour
 
         if (hitTray || hitBox != null)
         {
+            if (hitTray)
+            {
+                lockedTray = collision.gameObject;
+                lockedTray.tag = "OccupiedTray";
+            }
+
             isAttached = true;
             gameObject.tag = "SpineBox";
 
@@ -119,5 +132,11 @@ public class SpineLink : MonoBehaviour
         isAttached = false;
         hasBroken = true;
         gameObject.tag = "Untagged";
+
+        if (lockedTray != null)
+        {
+            lockedTray.tag = "Tray";
+            lockedTray = null;
+        }
     }
 }

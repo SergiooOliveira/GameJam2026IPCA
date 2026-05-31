@@ -20,6 +20,8 @@ public class SpineLink : MonoBehaviour
 
     public int stackIndex = 1;
 
+    public string itemType = "Pizza";
+
     private void Update()
     {
         // Chain reaction: if my anchor disappears, I am falling.
@@ -33,6 +35,9 @@ public class SpineLink : MonoBehaviour
             {
                 lockedTray.tag = "Tray";
                 lockedTray = null;
+
+                CargoManager cargo = lockedTray.GetComponentInParent<CargoManager>();
+                if (cargo != null) cargo.currentItemType = "";
             }
         }
     }
@@ -64,6 +69,9 @@ public class SpineLink : MonoBehaviour
             {
                 lockedTray = collision.gameObject;
                 lockedTray.tag = "OccupiedTray";
+
+                CargoManager cargo = lockedTray.GetComponentInParent<CargoManager>();
+                if (cargo != null) cargo.currentItemType = itemType;
             }
 
             isAttached = true;
@@ -137,6 +145,9 @@ public class SpineLink : MonoBehaviour
         {
             lockedTray.tag = "Tray";
             lockedTray = null;
+
+            CargoManager cargo = lockedTray.GetComponentInParent<CargoManager>();
+            if (cargo != null) cargo.currentItemType = "";
         }
     }
 }

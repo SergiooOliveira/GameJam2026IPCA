@@ -9,6 +9,9 @@ public class Dispenser : MonoBehaviour
     public float timeBetweenDrops = 0.5f;
     public float heightStepPerBox = 0.2f;
 
+    [Header("Cargo Rules")]
+    public string dispenserItemType = "Pizza";
+
     [Header("Shader Hook")]
     [Tooltip("Reads from 0 to 1. Feed this into your shader!")]
     public float dropProgress = 0f;
@@ -53,6 +56,13 @@ public class Dispenser : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            CargoManager cargo = other.GetComponent<CargoManager>();
+
+            if (cargo != null && cargo.currentItemType != "" && cargo.currentItemType != dispenserItemType)
+            {
+                return; // Do absolutely nothing. Ignore the player.
+            }
+
             canvas.SetActive(true);
             isPlayerWaiting = true;
             timer = 0f;
